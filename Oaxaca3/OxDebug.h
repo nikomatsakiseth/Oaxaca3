@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 #ifndef NDEBUG
 // Add a log at the current debug level.

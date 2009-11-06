@@ -35,11 +35,6 @@
 	return ![self containedIn:container];
 }
 
-- (id) perform
-{
-	return [OxArr(self) performForEach];
-}
-
 #pragma mark -
 #pragma mark Misc Key-Value
 

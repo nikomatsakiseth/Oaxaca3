@@ -16,11 +16,6 @@
 + (id) setWithUnionOfArrays:(NSArray*)array, ...;
 + (id) setWithUnionOfSets:(NSSet*)set, ...;
 
-#pragma mark -
-#pragma mark Higher Order Messaging (see OxHom.h for more!)
-
-- (id) perform;
-
 #pragma mark Misc
 
 - (NSString*) shortDescription;

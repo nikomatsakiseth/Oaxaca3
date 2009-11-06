@@ -9,7 +9,6 @@
 //
 
 #import "OxNSSet.h"
-#import "OxHom.h"
 
 @implementation NSSet (Oaxaca2)
 
@@ -41,14 +40,6 @@
 	va_end(ap);
 	
 	return [self setWithSet:result];
-}
-
-#pragma mark -
-#pragma mark Higher Order Messaging
-
-- (id) perform
-{
-    return [[OxHom homWithContentsOf:self] perform];
 }
 
 #pragma mark -

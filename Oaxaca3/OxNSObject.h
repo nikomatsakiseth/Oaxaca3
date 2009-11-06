@@ -26,7 +26,6 @@
 - (void) performSelector:(SEL)selector forEachObjectIn:(id)objects;
 - (BOOL) containedIn:(id)container;
 - (BOOL) notContainedIn:(id)container;
-- (id) perform; // HOM
 
 #pragma mark -
 #pragma mark Misc Key-Value

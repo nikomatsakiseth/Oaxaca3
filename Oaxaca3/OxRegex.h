@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import <regex.h>
 
 // A simple wrapper around regular expressions.   Based on some code that was released 
