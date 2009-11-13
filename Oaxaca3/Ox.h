@@ -34,4 +34,4 @@ static inline id NM(id object) { return [object valueForKeyPath:KP]; }
 static inline void set ## NM(id object, id value) { return [object setValue:value forKeyPath:KP]; }
 
 // Convenient marker for the implementation of abstract methods:
-#define OxAbstract() ([NSException raise:@"OxAbstract" format:@"Abstract Method %s Invoked: %s:%d", __func__, __FILE__, __LINE__], nil)
+#define OxAbstract() (assert(0), [NSException raise:@"OxAbstract" format:@"Abstract Method %s Invoked: %s:%d", __func__, __FILE__, __LINE__], nil)
