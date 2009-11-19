@@ -35,3 +35,11 @@ static inline void set ## NM(id object, id value) { return [object setValue:valu
 
 // Convenient marker for the implementation of abstract methods:
 #define OxAbstract() (assert(0), [NSException raise:@"OxAbstract" format:@"Abstract Method %s Invoked: %s:%d", __func__, __FILE__, __LINE__], nil)
+
+// OX_BLOCKS_AVAILABLE can be used to check whether ^{} will work
+#import <Availability.h>
+#ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
+#  if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
+#    define OX_BLOCKS_AVAILABLE
+#  endif
+#endif

@@ -178,13 +178,46 @@
 	return result;
 }
 
-- (NSArray*) mapByPerformingSelector:(SEL)sel
+#ifdef OX_BLOCKS_AVAILABLE
+- (NSArray*) filterWithBlock:(int (^)(id obj))block
 {
 	int cnt = [self count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
-	for (int idx = 0; idx < cnt; idx++)
-		[result addObject:[[self objectAtIndex:idx] performSelector:sel]];
+	for(id obj in self)
+		if(block(obj))
+			[result addObject:obj];
 	return result;
+}
+#endif
+
+#ifdef OX_BLOCKS_AVAILABLE
+- (NSArray*) filterAndMapWithBlock:(id (^)(id obj))block
+{
+	int cnt = [self count];
+	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
+	for(id obj in self) {
+		id obj2 = block(obj);
+		if(obj2)
+			[result addObject:obj2];
+	}
+	return result;
+}
+#endif
+
+#ifdef OX_BLOCKS_AVAILABLE
+- (NSArray*) mapWithBlock:(id (^)(id obj))block
+{
+	int cnt = [self count];
+	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
+	for(id obj in self)
+		[result addObject:block(obj)];
+	return result;
+}
+#endif
+
+- (NSArray*) mapByPerformingSelector:(SEL)sel
+{
+	return [self mapWithBlock:^(id obj) { return [obj performSelector:sel]; }];
 }
 
 - (NSString*) shortDescription

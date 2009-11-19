@@ -9,6 +9,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Ox.h"
 
 @interface NSArray (Oaxaca2) 
 
@@ -45,11 +46,20 @@
 - (NSString*) shortDescription;
 
 #pragma mark -
+#pragma mark Map, Filter, Do
+
+- (NSArray*) mapByPerformingSelector:(SEL)sel;
+
+#ifdef OX_BLOCKS_AVAILABLE
+- (NSArray*) filterWithBlock:(int (^)(id obj))block;      // if returns NO, omit
+- (NSArray*) mapWithBlock:(id (^)(id obj))block;          // replace with whatever is returned
+- (NSArray*) filterAndMapWithBlock:(id (^)(id obj))block; // if returns nil, omit
+#endif
+
+#pragma mark -
 #pragma mark Zip
 
 - (NSArray*) zippedArrayWith:(NSArray*)array;
-
-- (NSArray*) mapByPerformingSelector:(SEL)sel;
 
 #pragma mark -
 #pragma mark Quick Indices
