@@ -215,6 +215,13 @@
 }
 #endif
 
+#ifdef OX_BLOCKS_AVAILABLE
+- (NSArray*) parMapWithBlock:(id (^)(id obj))block
+{
+	return [self mapWithBlock:block]; // TODO
+}
+#endif
+
 - (NSArray*) mapByPerformingSelector:(SEL)sel
 {
 	return [self mapWithBlock:^(id obj) { return [obj performSelector:sel]; }];
