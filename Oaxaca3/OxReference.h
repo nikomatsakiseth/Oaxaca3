@@ -17,9 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@interface OxWeakReference : NSObject {
+@interface OxReference : NSObject {
     id referencedObject;
 }
 
@@ -30,11 +30,6 @@
 - (BOOL) isEqual:obj;
 - copyWithZone:(NSZone*)zone;
 
-@end
-
-@interface OxReference : OAWeakReference {
-}
-- initWithObject:(id)object;
 @end
 
 @interface NSObject (OxReference)
