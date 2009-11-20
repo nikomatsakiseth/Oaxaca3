@@ -217,7 +217,12 @@
 
 - (NSArray*) mapByPerformingSelector:(SEL)sel
 {
-	return [self mapWithBlock:^(id obj) { return [obj performSelector:sel]; }];
+	// Don't use mapWithBlock: here because blocks might not be available.
+	int cnt = [self count];
+	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
+	for(id obj in self)
+		[result addObject:[obj performSelector:sel]];
+	return result;
 }
 
 - (NSString*) shortDescription
