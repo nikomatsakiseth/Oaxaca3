@@ -240,7 +240,7 @@ static void OxParMap(int minIdx, int maxIdx, struct OxParMapContext *ctx)
 	}
 }
 
-- (NSArray*) parMappeArrayUsingBlock:(id (^)(id obj))block
+- (NSArray*) parMappedArrayUsingBlock:(id (^)(id obj))block
 {
 	int cnt = [self count];
 	
@@ -259,6 +259,13 @@ static void OxParMap(int minIdx, int maxIdx, struct OxParMapContext *ctx)
 	NSArray *result = [NSArray arrayWithObjects:ctx.results count:cnt];
 	free(ctx.results);
 	return result;
+}
+
+#else
+
+- (NSArray*) parMappedArrayUsingBlock:(id (^)(id obj))block
+{
+	return [self mappedArrayUsingBlock:block];
 }
 							 
 #endif

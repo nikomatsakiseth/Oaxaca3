@@ -1,10 +1,10 @@
 //
-//  OxCoreDataWindow.h
-//  Flash2
+//  Copyright 2009 Nicholas Matsakis. 
+//  The code in thie file is released to the public under the
+//  terms of the MIT License as described here:
+//  http://www.opensource.org/licenses/mit-license.php
 //
-//  Created by Niko Matsakis on 12/20/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
-//
+
 
 #import <Cocoa/Cocoa.h>
 

@@ -53,11 +53,8 @@
 #ifdef OX_BLOCKS_AVAILABLE
 - (NSArray*) filteredArrayUsingBlock:(int (^)(id obj))block;         // if returns NO, omit
 - (NSArray*) mappedArrayUsingBlock:(id (^)(id obj))block;            // replace with whatever is returned
-- (NSArray*) filteredAndMappedArrayUsingBlock:(id (^)(id obj))block; // if returns nil, omit
-#endif
-
-#ifdef GCD_AVAILABLE
 - (NSArray*) parMappedArrayUsingBlock:(id (^)(id obj))block;         // like mapWithBlock:, but potentially in parallel
+- (NSArray*) filteredAndMappedArrayUsingBlock:(id (^)(id obj))block; // if returns nil, omit
 #endif
 
 #pragma mark -
