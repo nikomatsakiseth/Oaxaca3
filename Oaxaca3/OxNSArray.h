@@ -48,16 +48,16 @@
 #pragma mark -
 #pragma mark Map, Filter, Do
 
-- (NSArray*) mapByPerformingSelector:(SEL)sel;
+- (NSArray*) mappedArrayUsingSelector:(SEL)sel;
 
 #ifdef OX_BLOCKS_AVAILABLE
-- (NSArray*) filterWithBlock:(int (^)(id obj))block;      // if returns NO, omit
-- (NSArray*) mapWithBlock:(id (^)(id obj))block;          // replace with whatever is returned
-- (NSArray*) filterAndMapWithBlock:(id (^)(id obj))block; // if returns nil, omit
+- (NSArray*) filteredArrayUsingBlock:(int (^)(id obj))block;         // if returns NO, omit
+- (NSArray*) mappedArrayUsingBlock:(id (^)(id obj))block;            // replace with whatever is returned
+- (NSArray*) filteredAndMappedArrayUsingBlock:(id (^)(id obj))block; // if returns nil, omit
 #endif
 
 #ifdef GCD_AVAILABLE
-- (NSArray*) parMapWithBlock:(id (^)(id obj))block;       // like mapWithBlock:, but potentially in parallel
+- (NSArray*) parMappedArrayUsingBlock:(id (^)(id obj))block;         // like mapWithBlock:, but potentially in parallel
 #endif
 
 #pragma mark -
