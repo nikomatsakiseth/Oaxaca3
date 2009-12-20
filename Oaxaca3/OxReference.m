@@ -20,7 +20,7 @@
 #import "OxReference.h"
 #import "Ox.h"
 
-@implementation OxWeakReference
+@implementation OxReference
 
 + referenceWithObject:(id)object
 {
@@ -30,9 +30,15 @@
 - initWithObject:(id)object
 {
     if ((self = [super init])) {
-        referencedObject = object;
+        referencedObject = [object retain];
     }
     return self;
+}
+
+- (void) dealloc
+{
+    [referencedObject release];
+    [super dealloc];
 }
 
 - referencedObject
@@ -47,32 +53,14 @@
 
 - (BOOL) isEqual:(id)obj
 {
-    if (![obj isKindOfClass:[OxWeakReference class]]) 
+    if (![obj isKindOfClass:[OxReference class]]) 
         return NO;
-    return ((OxWeakReference*)obj)->referencedObject == referencedObject;
+    return ((OxReference*)obj)->referencedObject == referencedObject;
 }
 
 - copyWithZone:(NSZone*)zone
 {
     return [self retain];
-}
-
-@end
-
-@implementation OxReference
-
-- initWithObject:(id)object
-{
-    if ((self = [super initWithObject:object])) {
-        [referencedObject retain];
-    }
-    return self;
-}
-
-- (void) dealloc
-{
-    [referencedObject release];
-    [super dealloc];
 }
 
 @end
@@ -99,7 +87,7 @@
 
 - objectForPointer:(id)key
 {
-    return [self objectForKey:[OxWeakReference referenceWithObject:key]];
+    return [self objectForKey:[OxReference referenceWithObject:key]];
 }
 
 @end
