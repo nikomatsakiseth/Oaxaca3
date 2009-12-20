@@ -14,7 +14,7 @@
 
 void invokeObservationSelector(id self, NSString *keyPath, id object, NSDictionary *change, void *context) {
     NSArray *components = [keyPath componentsSeparatedByString:@"."];
-    NSArray *capComponents = [components mapByPerformingSelector:@selector(stringWithCapitalizedFirstLetter)];
+    NSArray *capComponents = [components mappedArrayUsingSelector:@selector(stringWithCapitalizedFirstLetter)];
     NSString *combComponents = [capComponents componentsJoinedByString:@""];
     NSString *selString = [NSString stringWithFormat:
                           @"observeValueFor%@OfObject:change:context:", combComponents];

@@ -179,7 +179,7 @@
 }
 
 #ifdef OX_BLOCKS_AVAILABLE
-- (NSArray*) filterWithBlock:(int (^)(id obj))block
+- (NSArray*) filteredArrayUsingBlock:(int (^)(id obj))block
 {
 	int cnt = [self count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
@@ -191,7 +191,7 @@
 #endif
 
 #ifdef OX_BLOCKS_AVAILABLE
-- (NSArray*) filterAndMapWithBlock:(id (^)(id obj))block
+- (NSArray*) filteredAndMappedArrayUsingBlock:(id (^)(id obj))block
 {
 	int cnt = [self count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
@@ -205,7 +205,7 @@
 #endif
 
 #ifdef OX_BLOCKS_AVAILABLE
-- (NSArray*) mapWithBlock:(id (^)(id obj))block
+- (NSArray*) mappedArrayUsingBlock:(id (^)(id obj))block
 {
 	int cnt = [self count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
@@ -216,13 +216,13 @@
 #endif
 
 #ifdef OX_BLOCKS_AVAILABLE
-- (NSArray*) parMapWithBlock:(id (^)(id obj))block
+- (NSArray*) parMappedArrayUsingBlock:(id (^)(id obj))block
 {
-	return [self mapWithBlock:block]; // TODO
+	return [self mappedArrayUsingBlock:block]; // TODO
 }
 #endif
 
-- (NSArray*) mapByPerformingSelector:(SEL)sel
+- (NSArray*) mappedArrayUsingSelector:(SEL)sel
 {
 	// Don't use mapWithBlock: here because blocks might not be available.
 	int cnt = [self count];
