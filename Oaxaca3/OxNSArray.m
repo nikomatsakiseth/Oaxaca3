@@ -215,11 +215,52 @@
 }
 #endif
 
-#ifdef OX_BLOCKS_AVAILABLE
+#ifdef GCD_AVAILABLE
+
+struct OxParMapContext {
+	NSArray *array;
+	dispatch_group_t group;
+	dispatch_queue_t queue;
+	id (^block)(id obj);
+	id *results;
+	int thold;
+};
+
+static void OxParMap(int minIdx, int maxIdx, struct OxParMapContext *ctx) 
+{
+	int cnt = maxIdx - minIdx;
+	if(cnt < ctx->thold) {
+		for(int i = minIdx; i < maxIdx; i++)
+			ctx->results[i] = ctx->block([ctx->array objectAtIndex:i]);
+	} else {
+		dispatch_group_async(ctx->group, ctx->queue, ^{
+			OxParMap(minIdx + cnt/2, maxIdx, ctx);
+		});
+		OxParMap(minIdx, minIdx + cnt/2, ctx);
+	}
+}
+
 - (NSArray*) parMapWithBlock:(id (^)(id obj))block
 {
-	return [self mapWithBlock:block]; // TODO
+	int cnt = [self count];
+	
+	struct OxParMapContext ctx = {
+		.array = self,
+		.group = dispatch_group_create(),
+		.queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+		.block = block,
+		.results = malloc(sizeof(id) * cnt),
+		.thold = 20 // XXX
+	};
+	OxParMap(0, cnt, &ctx);
+	
+	dispatch_group_wait(ctx.group, DISPATCH_TIME_FOREVER);		
+	dispatch_release(ctx.group);
+	NSArray *result = [NSArray arrayWithObjects:ctx.results count:cnt];
+	free(ctx.results);
+	return result;
 }
+							 
 #endif
 
 - (NSArray*) mapByPerformingSelector:(SEL)sel
