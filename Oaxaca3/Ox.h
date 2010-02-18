@@ -1,5 +1,6 @@
 // Some macros to make it easier to create wrapper objects.
 #define OxInt(n) [NSNumber numberWithInt:n]
+#define OxBool(n) [NSNumber numberWithBool:n]
 #define OxDouble(n) [NSNumber numberWithDouble:n]
 #define OxYES [NSNumber numberWithBool:YES]
 #define OxNO [NSNumber numberWithBool:NO]

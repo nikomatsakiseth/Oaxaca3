@@ -30,6 +30,11 @@
 	}
 }
 
+- (void) addObjectsFromSet:(NSSet *)otherSet
+{
+	[self addObjectsFromArray:[otherSet allObjects]];
+}
+
 #ifdef OX_BLOCKS_AVAILABLE
 - (void) filterArrayInPlaceUsingBlock:(int (^)(id obj))blk
 {
