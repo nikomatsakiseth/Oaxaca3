@@ -4,7 +4,7 @@ static int indent;
 
 void _OxLog (const char *funcname, const char *file, int line, NSString *logme)
 {
-    NSLog (@"[%30s] %*s%@", funcname, indent, "", logme);
+    NSLog (@"%*s%@", indent, "", logme);
 }
 
 void _OxIndent (const char *funcname, const char *file, int line, NSString *label)

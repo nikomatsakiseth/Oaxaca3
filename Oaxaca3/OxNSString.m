@@ -166,7 +166,7 @@
     NSMutableArray *result = [NSMutableArray array];
     
     BOOL inWord=NO;
-    NSRange nonWS;
+    NSRange nonWS = NSMakeRange(0, 0);
     for (int i = 0; i < length; i++) {
         unichar c = [self characterAtIndex:i];        
         if ([whitespace characterIsMember:c]) {
@@ -197,7 +197,7 @@
     NSMutableArray *result = [NSMutableArray array];
     
     BOOL inWord=NO;
-    NSRange nonWS;
+    NSRange nonWS = NSMakeRange(0, 0);
     for (int i = 0; i < length; i++) {
         unichar c = [self characterAtIndex:i];        
         if ([separators characterIsMember:c]) {
@@ -306,7 +306,7 @@
     NSMutableString *result = [NSMutableString stringWithCapacity:[self length]];
     
     BOOL pendingWS=NO, pendingNonWS = NO;
-    NSRange nonWS;
+    NSRange nonWS = NSMakeRange(0, 0);
     for (int i = 0; i < length; i++) {
         unichar c = [self characterAtIndex:i];
         if ([whitespace characterIsMember:c]) {

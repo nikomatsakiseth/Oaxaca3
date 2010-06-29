@@ -1,3 +1,5 @@
+#import <objc/runtime.h>
+
 // Some macros to make it easier to create wrapper objects.
 #define OxInt(n) [NSNumber numberWithInt:n]
 #define OxDouble(n) [NSNumber numberWithDouble:n]
@@ -34,7 +36,7 @@ static inline id NM(id object) { return [object valueForKeyPath:KP]; }
 static inline void set ## NM(id object, id value) { return [object setValue:value forKeyPath:KP]; }
 
 // Convenient marker for the implementation of abstract methods:
-#define OxAbstract() (assert(0), [NSException raise:@"OxAbstract" format:@"Abstract Method %s Invoked: %s:%d", __func__, __FILE__, __LINE__], nil)
+#define OxAbstract() (NSLog(@"Abstract Method %s Invoked on Class %s: %s:%d", __func__, class_getName([self class]), __FILE__, __LINE__), assert(0), nil)
 
 // OX_BLOCKS_AVAILABLE can be used to check whether ^{} will work
 #import <Availability.h>
