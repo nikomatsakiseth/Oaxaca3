@@ -22,12 +22,12 @@
 
 @implementation OxReference
 
-+ referenceWithObject:object
++ referenceWithObject:(id)object
 {
     return [[[self alloc] initWithObject:object] autorelease];
 }
 
-- initWithObject:object
+- initWithObject:(id)object
 {
     if ((self = [super init])) {
         referencedObject = [object retain];
@@ -48,10 +48,10 @@
 
 - (unsigned) hash
 {
-    return (unsigned)(intptr_t)referencedObject;
+    return (unsigned)((intptr_t)referencedObject >> 2);
 }
 
-- (BOOL) isEqual:obj
+- (BOOL) isEqual:(id)obj
 {
     if (![obj isKindOfClass:[OxReference class]]) 
         return NO;
@@ -85,7 +85,7 @@
     return res;
 }
 
-- objectForPointer:key
+- objectForPointer:(id)key
 {
     return [self objectForKey:[OxReference referenceWithObject:key]];
 }
@@ -94,7 +94,7 @@
 
 @implementation NSMutableDictionary (OxReference)
 
-- (void) setObject:object forPointer:key
+- (void) setObject:(id)object forPointer:(id)key
 {
     [self setObject:object forKey:[OxReference referenceWithObject:key]];
 }

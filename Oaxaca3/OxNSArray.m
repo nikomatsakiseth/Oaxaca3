@@ -179,7 +179,7 @@
 }
 
 #ifdef OX_BLOCKS_AVAILABLE
-- (NSArray*) filterWithBlock:(int (^)(id obj))block
+- (NSArray*) filteredArrayUsingBlock:(int (^)(id obj))block
 {
 	int cnt = [self count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
@@ -191,7 +191,7 @@
 #endif
 
 #ifdef OX_BLOCKS_AVAILABLE
-- (NSArray*) filterAndMapWithBlock:(id (^)(id obj))block
+- (NSArray*) filteredAndMappedArrayUsingBlock:(id (^)(id obj))block
 {
 	int cnt = [self count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
@@ -205,7 +205,7 @@
 #endif
 
 #ifdef OX_BLOCKS_AVAILABLE
-- (NSArray*) mapWithBlock:(id (^)(id obj))block
+- (NSArray*) mappedArrayUsingBlock:(id (^)(id obj))block
 {
 	int cnt = [self count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
@@ -215,7 +215,62 @@
 }
 #endif
 
-- (NSArray*) mapByPerformingSelector:(SEL)sel
+#ifdef GCD_AVAILABLE
+
+struct OxParMapContext {
+	NSArray *array;
+	dispatch_group_t group;
+	dispatch_queue_t queue;
+	id (^block)(id obj);
+	id *results;
+	int thold;
+};
+
+static void OxParMap(int minIdx, int maxIdx, struct OxParMapContext *ctx) 
+{
+	int cnt = maxIdx - minIdx;
+	if(cnt < ctx->thold) {
+		for(int i = minIdx; i < maxIdx; i++)
+			ctx->results[i] = ctx->block([ctx->array objectAtIndex:i]);
+	} else {
+		dispatch_group_async(ctx->group, ctx->queue, ^{
+			OxParMap(minIdx + cnt/2, maxIdx, ctx);
+		});
+		OxParMap(minIdx, minIdx + cnt/2, ctx);
+	}
+}
+
+- (NSArray*) parMappedArrayUsingBlock:(id (^)(id obj))block
+{
+	int cnt = [self count];
+	
+	struct OxParMapContext ctx = {
+		.array = self,
+		.group = dispatch_group_create(),
+		.queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+		.block = block,
+		.results = malloc(sizeof(id) * cnt),
+		.thold = 20 // XXX
+	};
+	OxParMap(0, cnt, &ctx);
+	
+	dispatch_group_wait(ctx.group, DISPATCH_TIME_FOREVER);		
+	dispatch_release(ctx.group);
+	NSArray *result = [NSArray arrayWithObjects:ctx.results count:cnt];
+	free(ctx.results);
+	return result;
+}
+
+#else
+
+- (NSArray*) parMappedArrayUsingBlock:(id (^)(id obj))block
+{
+	return [self mappedArrayUsingBlock:block];
+}
+							 
+#endif
+
+- (NSArray*) mappedArrayUsingSelector:(SEL)sel
 {
 	// Don't use mapWithBlock: here because blocks might not be available.
 	int cnt = [self count];

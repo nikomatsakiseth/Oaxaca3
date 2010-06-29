@@ -42,6 +42,19 @@
 	return [self setWithSet:result];
 }
 
+#pragma mark Map
+
+#ifdef OX_BLOCKS_AVAILABLE
+- (NSSet*) mapWithBlock:(id (^)(id obj))blk
+{
+	NSMutableSet *result = [NSMutableSet set];
+	for(id obj in self) {
+		[result addObject:blk(obj)];
+	}
+	return result;
+}
+#endif
+
 #pragma mark -
 #pragma mark Misc
 

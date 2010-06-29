@@ -9,12 +9,18 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "Ox.h"
 
 @interface NSSet (Oaxaca2) 
 
 + (id) setWithUnionOfArrays:(NSArray*)array, ...;
 + (id) setWithUnionOfSets:(NSSet*)set, ...;
+
+#pragma mark Map
+
+#ifdef OX_BLOCKS_AVAILABLE
+- (NSSet*) mapWithBlock:(id (^)(id obj))blk;
+#endif
 
 #pragma mark Misc
 

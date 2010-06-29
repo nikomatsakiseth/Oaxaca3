@@ -30,4 +30,30 @@
 	}
 }
 
+- (void) addObjectsFromSet:(NSSet *)otherSet
+{
+	[self addObjectsFromArray:[otherSet allObjects]];
+}
+
+#ifdef OX_BLOCKS_AVAILABLE
+- (void) filterArrayInPlaceUsingBlock:(int (^)(id obj))blk
+{
+	NSUInteger c, dead;
+	c = [self count];
+	dead = 0;
+	for(int i = 0; i < c; i++) {
+		id obj = [self objectAtIndex:i];
+		if(!blk(obj)) {
+			dead++;			
+		} else if(dead) {
+			[self replaceObjectAtIndex:i-dead withObject:obj];
+		}
+	}
+
+	// remove the last "dead" entries:
+	if(dead)
+		[self removeObjectsInRange:NSMakeRange(c - dead, dead)];
+}
+#endif
+
 @end

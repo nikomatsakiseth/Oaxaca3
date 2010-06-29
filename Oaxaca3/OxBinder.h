@@ -17,6 +17,12 @@
 
 - init;
 
+// unbind all existing bindings
+- (void)unbindAll;
+
+// the owner should send this message instead of release:
+- (void)releaseAndUnbindAll;
+
 // Ensures that the value at object1/keyPath1 always has the 
 // same value as the value at object2/keyPath2.  *Takes the
 // current value of object2/keyPath2 as the initial value,

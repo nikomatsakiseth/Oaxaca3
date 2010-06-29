@@ -27,7 +27,7 @@
 - (id)initWithObject:(id)object;
 - (id)referencedObject;
 - (unsigned) hash;
-- (BOOL) isEqual:obj;
+- (BOOL) isEqual:(id)obj;
 - copyWithZone:(NSZone*)zone;
 
 @end
@@ -37,10 +37,10 @@
 @end
 
 @interface NSMutableDictionary (OxReference)
-- (void) setObject:object forPointer:key;
+- (void) setObject:(id)object forPointer:(id)key;
 @end
 
 @interface NSDictionary (OxReference)
 + (NSMutableDictionary*) dictionaryWithValues:(NSArray*)values pointerKeys:(NSArray*)keys;
-- objectForPointer:object;
+- objectForPointer:(id)object;
 @end
