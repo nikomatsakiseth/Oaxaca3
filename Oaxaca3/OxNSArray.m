@@ -261,7 +261,7 @@ static void OxParMap(int minIdx, int maxIdx, struct OxParMapContext *ctx)
 	return result;
 }
 
-#else
+#elif OX_BLOCKS_AVAILABLE
 
 - (NSArray*) parMappedArrayUsingBlock:(id (^)(id obj))block
 {
