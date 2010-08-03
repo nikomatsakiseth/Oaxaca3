@@ -275,8 +275,11 @@ static void OxParMap(int minIdx, int maxIdx, struct OxParMapContext *ctx)
 	// Don't use mapWithBlock: here because blocks might not be available.
 	int cnt = [self count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:cnt];
-	for(id obj in self)
-		[result addObject:[obj performSelector:sel]];
+	for(id obj in self) {
+		id ret = [obj performSelector:sel];
+		NSAssert2(ret != nil, @"%@ returned nil to %s", obj, sel);
+		[result addObject:ret];
+	}
 	return result;
 }
 
